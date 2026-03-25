@@ -1,0 +1,153 @@
+CareerLens — Full Plan
+======================
+
+WHAT IT IS:
+  AI career research buddy with a Picasso-style canvas chat interface.
+  You tell it your dream role, it has a conversation with you, takes your resume,
+  then does deep research across the web and builds a Pinterest-style vision board.
+
+TECH STACK:
+  Frontend:  Next.js 16 + React 19 + Tailwind (Vercel)
+  Backend:   Python FastAPI (Railway/Fly.io)
+  AI:        OpenAI GPT-4o
+  Search:    Serper.dev (Google search)
+  Transcripts: youtube-transcript-api (free, no key)
+  Database:  Supabase (later — for persistence, auth, board memory)
+
+API KEYS NEEDED (none set up yet):
+  [ ] OpenAI API Key — chat, resume parsing, synthesis ($5 minimum to start)
+  [ ] Serper.dev API Key — web search (free tier: 2,500 searches/mo, no card needed)
+  [ ] YouTube Data API Key — NOT NEEDED (using free transcript library instead)
+
+==============================================================================
+CURRENT STATUS — What's done
+==============================================================================
+
+[x] Backend: FastAPI project with all routes
+[x] Backend: Resume parser (PDF → structured data via GPT-4o)
+[x] Backend: Job listing scraper (URL → structured data)
+[x] Backend: Search module (Serper web search, Reddit JSON API, Glassdoor via web)
+[x] Backend: YouTube search (currently via YouTube Data API — needs swap)
+[x] Backend: Query expander (smart broadening when results are scarce)
+[x] Backend: Research engine (parallel search fanout + deep scrape)
+[x] Backend: AI synthesizer (all research → vision board cards)
+[x] Backend: Conversational chat endpoint (multi-turn, guides user through flow)
+[x] Backend: Resume upload + session storage
+[x] Backend: Research start from conversation (no job URL needed)
+[x] Frontend: Picasso-style canvas with dot grid background
+[x] Frontend: Centered chat input that slides to bottom after first message
+[x] Frontend: Chat bubble UI (user = dark, AI = white cards)
+[x] Frontend: Resume attachment via paperclip icon
+[x] Frontend: Research progress bar inline in chat
+[x] Frontend: Vision board with masonry layout (9 card types)
+[x] Frontend: All card components (company overview, salary, employee quotes,
+    interview questions, YouTube videos, match score, gap analysis,
+    skills roadmap, quick stats)
+[x] Frontend: Deployed to Vercel
+
+==============================================================================
+TODO — What's left
+==============================================================================
+
+HIGH PRIORITY (must do):
+---
+
+1. YOUTUBE TRANSCRIPT INTEGRATION
+   - Install youtube-transcript-api in backend
+   - Replace YouTube Data API search with Serper site:youtube.com search
+   - After finding video URLs, extract video IDs
+   - Pull transcripts via youtube-transcript-api
+   - Feed transcripts into the synthesis step
+   - Remove YouTube Data API key requirement
+   - Update .env.example
+
+2. SET UP API KEYS & TEST END-TO-END
+   - Get OpenAI API key (platform.openai.com → API keys)
+   - Get Serper.dev API key (serper.dev → sign up → free 2,500 searches, no credit card)
+   - Create backend/.env from backend/.env.example, fill in the keys
+   - Run backend locally: cd backend && source venv/bin/activate && uvicorn main:app --reload
+   - Run frontend locally: cd frontend && npm run dev
+   - Create frontend/.env.local with NEXT_PUBLIC_API_URL=http://localhost:8000
+   - Test full flow: open localhost:3000 → chat → attach resume → research → vision board
+
+3. DEPLOY BACKEND
+   - Deploy FastAPI to Railway or Fly.io
+   - Set environment variables
+   - Update frontend NEXT_PUBLIC_API_URL to point to deployed backend
+   - Redeploy frontend to Vercel
+   - Test full flow on production
+
+4. PER-BOARD AI MEMORY / CHAT
+   - Each vision board gets its own AI chat panel
+   - Store conversation history (Supabase or in-memory for MVP)
+   - AI has full research context + resume as system context
+   - User can ask follow-ups: "Quiz me on interview questions",
+     "What should I focus on this week?", "Summarize the culture"
+   - AI remembers prior conversations on that board
+
+5. SUPABASE INTEGRATION (persistence)
+   - Set up Supabase project
+   - Auth via magic link (optional — can skip for MVP)
+   - Store boards, cards, and chat history in Postgres
+   - Resume file storage in Supabase Storage
+   - Users can return and see their boards + continue conversations
+
+MEDIUM PRIORITY (should do):
+---
+
+6. POLISH THE CHAT UX
+   - Smooth animation when input slides from center to bottom
+   - Typing indicator animation (three dots)
+   - Suggested prompts below the input ("I want to be a software engineer",
+     "Help me find a data science role", "I'm interested in finance")
+   - Markdown rendering in AI messages (bold, lists, etc.)
+   - Better mobile responsiveness
+
+7. POLISH THE VISION BOARD
+   - Smooth transition from chat to board view
+   - "Chat with this board" button to ask follow-up questions
+   - Card hover animations
+   - Better YouTube card with transcript snippets shown
+   - Mobile-responsive masonry grid
+
+8. DEEP SCRAPE IMPROVEMENTS
+   - Scrape Reddit post comments (not just post titles)
+   - Scrape Glassdoor reviews more deeply
+   - Scrape Blind for additional employee feedback
+   - Increase parallel scraping for speed
+
+LOW PRIORITY (nice to have):
+---
+
+9.  PDF export of vision board
+10. Share board via public link
+11. Dark mode toggle
+12. Multiple boards from sidebar
+13. Compare boards side by side
+14. Flashcard study mode for interview questions
+15. LinkedIn audit (if feasible)
+
+==============================================================================
+TIMELINE
+==============================================================================
+
+Week 1 (Mar 25-31):  [DONE] Foundation — project setup, backend, frontend, canvas UI
+Week 2 (Apr 1-7):    YouTube transcripts, API keys, end-to-end testing, deploy backend
+Week 3 (Apr 8-14):   Per-board AI memory, Supabase integration, chat polish
+Week 4 (Apr 15-21):  Vision board polish, deep scrape improvements, mobile
+Week 5 (Apr 22-30):  Final polish, deploy, record 3-min video pitch, submit
+
+DEADLINE: April 30, 2026
+FINALISTS NOTIFIED: May 7
+VIDEO PITCH DUE: May 11 (3 minutes)
+WINNERS ANNOUNCED: May 15
+
+==============================================================================
+JUDGING CRITERIA
+==============================================================================
+
+Usefulness   (25%) — Solves a real need
+Execution    (25%) — Works reliably
+Creativity   (20%) — Original idea
+Clarity      (15%) — Clear problem/solution explanation
+Polish       (15%) — Quality, usability, attention to detail
